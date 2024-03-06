@@ -1,6 +1,24 @@
 window.addEventListener("load", function () {
   // AOS적용
   AOS.init();
+  // 안내창
+  let body = document.querySelector("body");
+  let modal = document.querySelector(".modal-wrap");
+  modal.addEventListener("click", function () {
+    // modal.style.display = "none";
+    // fadeOut(modal);
+    anime({
+      targets: ".modal",
+      delay: 200,
+      duration: 500,
+      opacity: 0,
+      easing: "easeInOutQuad",
+      complete:function(){
+        modal.style.display = "none";
+        body.classList.add("active")
+      }
+    });
+  });
   // 언어 펼침 기능
   const langWord = document.querySelector(".language-word");
   const language = document.querySelector(".languge");
@@ -104,8 +122,8 @@ window.addEventListener("load", function () {
     if (playPromise !== undefined) {
       playPromise.then((_) => {}).catch((error) => {});
     }
-    clearInterval(videoTimer)
-    videoReset()
+    clearInterval(videoTimer);
+    videoReset();
   });
   // 비디오 영상이 플레이가 끝나면 다음 슬라이드로 이동
   // 늘어나는 흰색 bar 기능 추가
@@ -132,38 +150,40 @@ window.addEventListener("load", function () {
     // setInterval : 시간마다 연속 실행 clearInterval()
     clearInterval(videoTimer);
     // 비디오 플레이시간
-    let videoTime = videosTimeArr[videoIndex]
+    let videoTime = videosTimeArr[videoIndex];
     // console.log(videoTime);
-    videoTimer = setInterval(()=>{
-      barScaleW++
+    videoTimer = setInterval(() => {
+      barScaleW++;
       // console.log(barScaleW);
-      activeBar.style.width = `${barScaleW}%`
-      if(barScaleW >= 100){
-        swVisual.slideNext()
-        clearInterval(videoTimer)
-        videoReset()
+      activeBar.style.width = `${barScaleW}%`;
+      if (barScaleW >= 100) {
+        swVisual.slideNext();
+        clearInterval(videoTimer);
+        videoReset();
       }
-    },videoTime * 10 )
+    }, videoTime * 10);
   }
   videoReset();
 
-  // visual-control > li 클릭했을 때 해당 페이지 활성화 하기
-  const visualControlLi = this.document.querySelectorAll(".visual-control > li")
-  visualControlLi.forEach((item, index)=>{
-    item.addEventListener("click" , function(){
-      videoIndex = index
-      swVisual.slideTo(videoIndex)
-    })
+  // .visual-control > li 클릭했을때 해당 페이지 활성화하기
+  const visualControlLi = this.document.querySelectorAll(
+    ".visual-control > li"
+  );
+  visualControlLi.forEach((item, index) => {
+    item.addEventListener("click", function () {
+      videoIndex = index;
+      swVisual.slideTo(videoIndex);
+    });
     // console.log(index);
     // console.log(item);
-  })
+  });
   // 비지니스 swiper
-  const swBusiness = new Swiper(".swBusiness" , {
-    loop:true,
-    speed:500,
-    autoplay:{
-      delay:2500,
-      disableOnInteraction:false,
-    }
-  })
+  const sWBusiness = new Swiper(".swBusiness", {
+    loop: true,
+    speed: 500,
+    autoplay: {
+      delay: 2500,
+      disableOnInteraction: false,
+    },
+  });
 });
